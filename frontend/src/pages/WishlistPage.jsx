@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyWishlist({ darkMode, setCurrentPage }) {
   return (
@@ -142,7 +142,7 @@ export default function WishlistPage({ darkMode, setCurrentPage }) {
     const fetchWishlist = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get("http://localhost:5000/api/wishlist", {
+        const { data } =await axios.get(`${API}/api/wishlist`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setWishlist(data);
@@ -179,7 +179,7 @@ export default function WishlistPage({ darkMode, setCurrentPage }) {
   const handleRemove = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/wishlist/${productId}`, {
+      await axios.delete(`${API}/api/wishlist/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlist(prev => ({
@@ -196,12 +196,12 @@ export default function WishlistPage({ darkMode, setCurrentPage }) {
   const handleMoveToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/cart/add",
+      await axios.post(`${API}/api/cart/add`,
         { productId, quantity: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Remove from wishlist after moving
-      await axios.delete(`http://localhost:5000/api/wishlist/${productId}`, {
+      await axios.delete(`${API}/api/wishlist/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlist(prev => ({
