@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "../context/Authcontext";
 
-const API = "http://localhost:5000/api";
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
 
 /* ─── input class ──────────────────────────────────────────────────────────── */
